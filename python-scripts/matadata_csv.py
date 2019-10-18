@@ -85,6 +85,12 @@ class Video(object):
                 self.fps += re.search('\s([+-]?[0-9]*[.]?[0-9]+) fps', line).group(1)
             if re.search('([1-9][0-9]+x\d+)', line):
                 self.dimension = re.search('([1-9][0-9]+x\d+)', line).group(1)
+        if self.creation_date is '':
+            try:
+                self.creation_date = datetime.datetime.fromtimestamp(os.stat(path).st_birthtime).strftime("%d-%m-%Y")
+            except OSError, ValueError:
+                pass
+
 
 
     def printAttributes(self):
